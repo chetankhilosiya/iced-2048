@@ -13,28 +13,28 @@ use crate::app::AppMessage;
 ///
 
 enum TileColor {
-    BLACK,
-    RED,
-    GREEN,
-    BLUE,
+    Black,
+    Red,
+    Green,
+    Blue,
 }
 
 impl TileColor {
     fn color(&self) -> Color {
         match self {
-            TileColor::RED => Color::from_rgb8(235, 100, 52),
-            TileColor::GREEN => Color::from_rgb8(52, 235, 107),
-            TileColor::BLUE => Color::from_rgb8(52, 55, 235),
-            TileColor::BLACK => Color::from_rgb8(0, 0, 0),
+            TileColor::Red => Color::from_rgb8(235, 100, 52),
+            TileColor::Green => Color::from_rgb8(52, 235, 107),
+            TileColor::Blue => Color::from_rgb8(52, 55, 235),
+            TileColor::Black => Color::from_rgb8(0, 0, 0),
         }
     }
 
     fn get_color(value: u32) -> Self {
         match value {
-            a if (2..=8).contains(&a) => TileColor::RED,
-            a if (9..=256).contains(&a) => TileColor::BLUE,
-            a if a > 256 => TileColor::GREEN,
-            _ => TileColor::BLACK,
+            a if (2..=8).contains(&a) => TileColor::Red,
+            a if (9..=256).contains(&a) => TileColor::Blue,
+            a if a > 256 => TileColor::Green,
+            _ => TileColor::Black,
         }
     }
 }
@@ -45,16 +45,12 @@ pub struct Tile {
 }
 
 impl Tile {
-    pub fn new() -> Self {
+    pub fn with_value(value: u32) -> Self {
+        let val = if value == 0 { None } else { Some(value) };
         Tile {
-            value: Some(2),
-            color: TileColor::BLACK,
+            value: val,
+            color: TileColor::get_color(value),
         }
-    }
-
-    pub fn update(&mut self, value: u32) {
-        self.value = if value > 0 { Some(value) } else { None };
-        self.color = TileColor::get_color(value)
     }
 
     pub fn view<'a>(&self) -> Element<'a, AppMessage, Renderer> {
@@ -63,12 +59,13 @@ impl Tile {
         } else {
             text("")
         };
+
         text = text
-            .height(36)
-            .width(36)
+            .height(64)
+            .width(64)
             .vertical_alignment(Vertical::Center)
             .horizontal_alignment(Horizontal::Center)
-            .size(16);
+            .size(24);
         container(text).style(theme::Container::Box).into()
     }
 }
