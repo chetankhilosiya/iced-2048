@@ -8,7 +8,7 @@ use crate::game;
 use crate::tile::Tile;
 
 pub struct App {
-    score: u32,
+    score: u64,
     grid_values: [[u32; 4]; 4],
 }
 
@@ -47,11 +47,17 @@ impl Application for App {
                 }) => {
                     match key_code {
                         keyboard::KeyCode::Up => {
-                            game::slide_up(&mut self.grid_values);
+                            self.score = game::slide_up(&mut self.grid_values, self.score);
                         }
-                        keyboard::KeyCode::Down => {}
-                        keyboard::KeyCode::Left => {}
-                        keyboard::KeyCode::Right => {}
+                        keyboard::KeyCode::Down => {
+                            self.score = game::slide_down(&mut self.grid_values, self.score);
+                        }
+                        keyboard::KeyCode::Left => {
+                            self.score = game::slide_left(&mut self.grid_values, self.score);
+                        }
+                        keyboard::KeyCode::Right => {
+                            self.score = game::slide_right(&mut self.grid_values, self.score);
+                        }
                         _ => (),
                     }
 
