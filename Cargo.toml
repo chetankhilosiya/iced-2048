@@ -14,3 +14,4 @@ keywords = ["2048", "game", "iced"]
 
 [dependencies]
 iced = { version = "0.10.0", features = ["debug", "tokio"] }
+fastrand = "2.0.1"

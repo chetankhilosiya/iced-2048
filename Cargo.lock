@@ -500,6 +500,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "fastrand"
+version = "2.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25cbce373ec4653f1a01a31e8a5e5ec0c622dc27ff9c4e6606eefef5cbbed4a5"
+
+[[package]]
 name = "fdeflate"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -826,6 +832,7 @@ dependencies = [
 name = "iced-2048"
 version = "0.1.0"
 dependencies = [
+ "fastrand 2.0.1",
  "iced",
 ]
 
@@ -1896,7 +1903,7 @@ dependencies = [
  "cfg_aliases",
  "cocoa",
  "core-graphics",
- "fastrand",
+ "fastrand 1.9.0",
  "foreign-types",
  "log",
  "nix 0.26.4",

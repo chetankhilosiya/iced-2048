@@ -24,7 +24,10 @@ impl Application for App {
     type Flags = ();
 
     fn new(_flags: Self::Flags) -> (Self, Command<Self::Message>) {
-        let grid_values: [[u32; 4]; 4] = [[0, 4, 4, 0], [0, 2, 0, 0], [2, 0, 2, 0], [2, 4, 2, 0]];
+        let mut grid_values: [[u32; 4]; 4] =
+            [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+        let (i, j) = game::get_next_random_index(&grid_values);
+        grid_values[i][j] = 2;
         (
             Self {
                 score: 0,
@@ -60,7 +63,17 @@ impl Application for App {
                         }
                         _ => (),
                     }
-
+                    let (game_end, win) = game::pass_or_fail(&self.grid_values);
+                    if game_end {
+                        self.show_end_game(win);
+                    }
+                    let (i, j) = game::get_next_random_index(&self.grid_values);
+                    if i == usize::MAX {
+                        let (_game_end, win) = game::pass_or_fail(&self.grid_values);
+                        self.show_end_game(win);
+                        return Command::none();
+                    }
+                    self.grid_values[i][j] = 2;
                     Command::none()
                 }
 
@@ -109,4 +122,8 @@ impl Application for App {
         )
         .into()
     }
+}
+
+impl App {
+    fn show_end_game(&mut self, win: bool) {}
 }

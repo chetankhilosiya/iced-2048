@@ -26,7 +26,8 @@ fn update_column_up(values: &mut [[u32; 4]; 4], val: &[u32], col: usize) {
 fn merge_values(val: &mut Vec<u32>, score: u64) -> u64 {
     let mut merge = true;
     let mut new_score = score;
-    for i in 1..val.len() {
+    let mut i = 1;
+    while i < val.len() {
         if !merge {
             merge = true;
         } else if val[i - 1] == val[i] {
@@ -35,6 +36,7 @@ fn merge_values(val: &mut Vec<u32>, score: u64) -> u64 {
             val.remove(i);
             merge = false;
         }
+        i += 1;
     }
     new_score
 }
@@ -112,4 +114,72 @@ fn update_row_right(values: &mut [[u32; 4]; 4], val: &[u32], row: usize) {
     for j in (0..4).rev() {
         values[row][j] = if (3 - j) < val.len() { val[3 - j] } else { 0 };
     }
+}
+
+pub fn get_next_random_index(grid_values: &[[u32; 4]; 4]) -> (usize, usize) {
+    let mut empty_positions = Vec::new();
+    for i in 0..4 {
+        for j in 0..4 {
+            if grid_values[i][j] == 0 {
+                empty_positions.push((4 * i) + j);
+            }
+        }
+    }
+    if empty_positions.is_empty() {
+        return (usize::MAX, usize::MAX);
+    }
+
+    let index = fastrand::usize(..empty_positions.len());
+    let i = empty_positions[index] / 4;
+    let j = empty_positions[index] % 4;
+    (i, j)
+}
+
+pub fn pass_or_fail(grid_values: &[[u32; 4]; 4]) -> (bool, bool) {
+    for arr in grid_values {
+        for val in arr {
+            if *val == 2048 {
+                // Win game
+                return (true, true);
+            }
+            if *val == 0 {
+                // empty box present. So continue game.
+                return (false, false);
+            }
+        }
+    }
+    // check 2 same values are present in consecutive?
+    // if 2 same values are present adjecent to each then game is not over.
+    // else game over with Loose.
+    let proceed = (false, false);
+    for i in 0..4 {
+        for j in 0..4 {
+            let a = grid_values[i][j];
+            if i != 3 {
+                let b = grid_values[i + 1][j];
+                if a == b {
+                    return proceed;
+                }
+            }
+            if j != 3 {
+                let b = grid_values[i][j + 1];
+                if a == b {
+                    return proceed;
+                }
+            }
+            if i != 0 {
+                let b = grid_values[i - 1][j];
+                if a == b {
+                    return proceed;
+                }
+            }
+            if j != 0 {
+                let b = grid_values[i][j - 1];
+                if a == b {
+                    return proceed;
+                }
+            }
+        }
+    }
+    (true, false)
 }
