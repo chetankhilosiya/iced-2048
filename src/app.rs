@@ -125,5 +125,5 @@ impl Application for App {
 }
 
 impl App {
-    fn show_end_game(&mut self, win: bool) {}
+    fn show_end_game(&mut self, _win: bool) {}
 }

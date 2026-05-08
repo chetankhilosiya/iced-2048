@@ -31,8 +31,8 @@ impl TileColor {
 
     fn get_color(value: u32) -> Self {
         match value {
-            a if (2..=8).contains(&a) => TileColor::Red,
-            a if (9..=256).contains(&a) => TileColor::Blue,
+            a if (2..=16).contains(&a) => TileColor::Red,
+            a if (17..=256).contains(&a) => TileColor::Blue,
             a if a > 256 => TileColor::Green,
             _ => TileColor::Black,
         }

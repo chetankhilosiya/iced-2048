@@ -501,9 +501,9 @@ dependencies = [
 
 [[package]]
 name = "fastrand"
-version = "2.0.1"
+version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25cbce373ec4653f1a01a31e8a5e5ec0c622dc27ff9c4e6606eefef5cbbed4a5"
+checksum = "9f1f227452a390804cdb637b74a86990f2a7d7ba4b7d5693aac9b4dd6defd8d6"
 
 [[package]]
 name = "fdeflate"
@@ -832,7 +832,7 @@ dependencies = [
 name = "iced-2048"
 version = "0.1.0"
 dependencies = [
- "fastrand 2.0.1",
+ "fastrand 2.4.1",
  "iced",
 ]
 
